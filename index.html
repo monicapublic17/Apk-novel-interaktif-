@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>SYSTEM: Midnight Route</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="dot"></span>
+        <div>
+          <div class="title">SYSTEM: Midnight Route</div>
+          <div class="sub">Anime Interactive Story • Death Router</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btnReset" class="btn ghost" title="Ulang dari awal">Reset</button>
+        <button id="btnToggleBgm" class="btn ghost" title="BGM">BGM: ON</button>
+        <button id="btnToggleSfx" class="btn ghost" title="SFX">SFX: ON</button>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <!-- VN background image (scene-based) -->
+      <div class="bgImage" id="bgImage"></div>
+
+      <!-- gradient lighting -->
+      <div class="bg" id="bg"></div>
+
+      <!-- flash overlay (for red warning) -->
+      <div class="flash"></div>
+
+      <!-- portraits -->
+      <div class="portraits">
+        <img id="leftPortrait" class="portrait left" alt="" />
+        <img id="rightPortrait" class="portrait right" alt="" />
+      </div>
+
+      <section class="card">
+        <div class="meta">
+          <span class="badge" id="badge">SYSTEM</span>
+          <span class="scene" id="sceneTitle">Booting...</span>
+        </div>
+
+        <div class="dialog">
+          <div class="name" id="speaker">SYSTEM</div>
+          <div class="text" id="text"></div>
+        </div>
+
+        <div class="choices" id="choices"></div>
+
+        <div class="footerRow">
+          <button id="btnNext" class="btn primary">Next</button>
+          <button id="btnBack" class="btn ghost">Back</button>
+        </div>
+
+        <div class="tiny" id="hint">
+          Tip: klik teks saat ngetik untuk skip typewriter • progress auto-save.
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="status">
+        <span class="pill" id="saveStatus">Saved</span>
+        <span class="pill muted" id="progress">0%</span>
+      </div>
+      <div class="credits">v1 • offline-ready</div>
+    </footer>
+  </div>
+
+  <!-- SFX -->
+  <audio id="sfxClick" preload="auto">
+    <source src="assets/sfx/click.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sfxAlert" preload="auto">
+    <source src="assets/sfx/alert.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sfxWhoosh" preload="auto">
+    <source src="assets/sfx/whoosh.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- BGM -->
+  <audio id="bgm" preload="auto" loop>
+    <source src="assets/bgm/midnight_loop.mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="app.js"></script>
+</body>
+</html>
