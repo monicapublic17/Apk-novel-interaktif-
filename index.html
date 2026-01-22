@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#060A14" />
+  <title>SYSTEM: Midnight Route</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Background -->
+  <div id="bg" class="bg" aria-hidden="true"></div>
+  <div class="bg-overlay scanlines" aria-hidden="true"></div>
+  <div id="vignette" class="bg-overlay vignette is-off" aria-hidden="true"></div>
+
+  <!-- Top HUD -->
+  <header class="hud">
+    <div class="hud-left">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-title">SYSTEM</span>
+      </div>
+      <div id="hudStatus" class="hud-chip tone-blue">NORMAL</div>
+      <div id="hudEpisode" class="hud-chip subtle">EP 1</div>
+    </div>
+
+    <div class="hud-right">
+      <button id="btnLog" class="hud-btn" type="button" title="Log">LOG</button>
+      <button id="btnSave" class="hud-btn" type="button" title="Save">SAVE</button>
+      <button id="btnLoad" class="hud-btn" type="button" title="Load">LOAD</button>
+      <button id="btnSettings" class="hud-btn" type="button" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <!-- Portraits -->
+  <main class="stage">
+    <div class="portraits">
+      <div id="portraitLeftWrap" class="portrait-wrap left is-hidden">
+        <img id="portraitLeft" class="portrait" alt="Portrait Left" />
+      </div>
+
+      <div id="portraitRightWrap" class="portrait-wrap right is-hidden">
+        <img id="portraitRight" class="portrait" alt="Portrait Right" />
+      </div>
+    </div>
+
+    <!-- SYSTEM PANEL (used when speaker = SYSTEM) -->
+    <section id="systemPanel" class="panel system tone-blue" aria-live="polite">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span class="tag">SYSTEM</span>
+          <span id="systemLabel" class="label">BOOT</span>
+        </div>
+        <div id="systemMeta" class="meta">midnight-route</div>
+      </div>
+
+      <div id="systemText" class="panel-text"></div>
+
+      <ul id="systemChoices" class="choices is-hidden" aria-label="Choices (System)"></ul>
+
+      <div class="panel-foot">
+        <div class="hint" id="tapHint">Tap untuk lanjut</div>
+        <div class="nav">
+          <button id="btnBack" class="nav-btn" type="button">Back</button>
+          <button id="btnNext" class="nav-btn primary" type="button">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIALOG PANEL (used when speaker = MC/EVELYN) -->
+    <section id="dialogPanel" class="panel dialog is-hidden" aria-live="polite">
+      <div class="panel-head">
+        <div class="panel-title">
+          <span id="dialogSpeaker" class="tag">MC</span>
+          <span id="dialogMood" class="label subtle">—</span>
+        </div>
+        <div id="dialogMeta" class="meta">channel: private</div>
+      </div>
+
+      <div id="dialogText" class="panel-text"></div>
+
+      <ul id="dialogChoices" class="choices is-hidden" aria-label="Choices (Dialog)"></ul>
+
+      <div class="panel-foot">
+        <div class="hint" id="dialogHint">Tap untuk lanjut</div>
+        <div class="nav">
+          <button id="btnBack2" class="nav-btn" type="button">Back</button>
+          <button id="btnNext2" class="nav-btn primary" type="button">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toast -->
+    <div id="toast" class="toast is-hidden" role="status" aria-live="polite"></div>
+  </main>
+
+  <!-- MODAL: Name Input -->
+  <div id="modalName" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="nameTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title" id="nameTitle">Identitas Pengguna</div>
+        <button id="btnNameClose" class="modal-x" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-text">Masukkan nama yang akan tampil di rute ini.</p>
+        <div class="field">
+          <label class="field-label" for="playerName">Nama</label>
+          <input id="playerName" class="field-input" type="text" maxlength="18" placeholder="Player" />
+          <div class="field-hint">Max 18 karakter.</div>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnNameOk" class="modal-btn primary" type="button">Konfirmasi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Save / Load -->
+  <div id="modalSaveLoad" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="slTitle">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div class="modal-title" id="slTitle">Save / Load</div>
+        <button id="btnSLClose" class="modal-x" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="tabs">
+          <button id="tabSave" class="tab is-active" type="button">SAVE</button>
+          <button id="tabLoad" class="tab" type="button">LOAD</button>
+        </div>
+
+        <div class="slots">
+          <div class="slot-row">
+            <button class="slot" type="button" data-slot="1">
+              <div class="slot-title">Slot 1</div>
+              <div class="slot-meta" data-slot-meta="1">Kosong</div>
+            </button>
+
+            <button class="slot" type="button" data-slot="2">
+              <div class="slot-title">Slot 2</div>
+              <div class="slot-meta" data-slot-meta="2">Kosong</div>
+            </button>
+
+            <button class="slot" type="button" data-slot="3">
+              <div class="slot-title">Slot 3</div>
+              <div class="slot-meta" data-slot-meta="3">Kosong</div>
+            </button>
+          </div>
+
+          <div class="slot-row">
+            <button class="slot ghost" type="button" id="btnAutosave">
+              <div class="slot-title">Autosave</div>
+              <div class="slot-meta" id="autosaveMeta">—</div>
+            </button>
+
+            <button class="slot ghost" type="button" id="btnClearSaves">
+              <div class="slot-title">Clear Saves</div>
+              <div class="slot-meta">Hapus slot 1–3</div>
+            </button>
+          </div>
+        </div>
+
+        <p class="modal-text small">
+          Tips: SAVE buat simpan manual. LOAD buat balik ke titik tertentu. Autosave jalan otomatis.
+        </p>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnSLAction" class="modal-btn primary" type="button">SAVE ke slot</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Log -->
+  <div id="modalLog" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="logTitle">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div class="modal-title" id="logTitle">Log</div>
+        <button id="btnLogClose" class="modal-x" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="logList" class="log"></div>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnLogClear" class="modal-btn" type="button">Clear Log</button>
+        <button id="btnLogOk" class="modal-btn primary" type="button">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS (simple) -->
+  <div id="modalSettings" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title" id="setTitle">Settings</div>
+        <button id="btnSetClose" class="modal-x" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="setting">
+          <div class="setting-title">BGM</div>
+          <label class="switch">
+            <input id="toggleBGM" type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting">
+          <div class="setting-title">SFX</div>
+          <label class="switch">
+            <input id="toggleSFX" type="checkbox" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting">
+          <div class="setting-title">Typing Speed</div>
+          <select id="typingSpeed" class="select">
+            <option value="fast" selected>Fast</option>
+            <option value="med">Medium</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button id="btnSetOk" class="modal-btn primary" type="button">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
